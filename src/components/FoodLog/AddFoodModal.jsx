@@ -2,9 +2,10 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { motion, AnimatePresence } from 'framer-motion'
 import { addEntry, updateEntry } from '../../store/slices/foodLogSlice'
+import { addCustomFood } from '../../store/slices/customFoodsSlice'
 import { scaleMacros } from '../../utils/macroCalc'
 import { MEAL_ICONS } from '../../utils/tdeeCalc'
-import foods from '../../data/foods.json'
+import builtinFoods from '../../data/foods.json'
 import toast from 'react-hot-toast'
 import styles from './AddFoodModal.module.css'
 
@@ -28,21 +29,35 @@ const CATEGORY_ICONS = {
  * @param {string|null} props.defaultMeal  — meal name to pre-select when adding
  */
 export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = null, defaultMeal = null }) {
-  const dispatch   = useDispatch()
-  const meals      = useSelector(s => s.goals.meals)
-  const searchRef  = useRef()
-  const qtyRef     = useRef()
+  const dispatch     = useDispatch()
+  const meals        = useSelector(s => s.goals.meals)
+  const customFoods  = useSelector(s => s.customFoods.foods)
+  const searchRef    = useRef()
+  const qtyRef       = useRef()
+
+  // Merge builtin + custom foods
+  const allFoods = useMemo(() => [
+    ...builtinFoods,
+    ...customFoods.map(f => ({ ...f, category: 'custom' }))
+  ], [customFoods])
 
   const [query,        setQuery]        = useState('')
   const [selected,     setSelected]     = useState(null)
   const [quantity,     setQuantity]     = useState('')
   const [selectedMeal, setSelectedMeal] = useState(null)
+  // 'search' | 'create-custom'
+  const [subMode,      setSubMode]      = useState('search')
+
+  // Create-custom-food form state
+  const [cf, setCf] = useState({ name: '', servingUnit: 'serving', calories: '', protein: '', carbs: '', fat: '' })
 
   // Hydrate modal state on open
   useEffect(() => {
     if (!isOpen) return
+    setSubMode('search')
+    setCf({ name: '', servingUnit: 'serving', calories: '', protein: '', carbs: '', fat: '' })
     if (editEntry) {
-      const food = foods.find(f => f.id === editEntry.foodId)
+      const food = allFoods.find(f => f.id === editEntry.foodId)
       setSelected(food || null)
       setQuantity(String(editEntry.quantity))
       setQuery(food ? food.name : '')
@@ -70,12 +85,12 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    if (!q) return foods
-    return foods.filter(f =>
+    if (!q) return allFoods
+    return allFoods.filter(f =>
       f.name.toLowerCase().includes(q) ||
       f.category.toLowerCase().includes(q)
     )
-  }, [query])
+  }, [query, allFoods])
 
   const qty      = parseFloat(quantity) || 0
   const computed = selected && qty > 0 ? scaleMacros(selected, qty) : null
@@ -83,6 +98,31 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
   function handleSelectFood(food) {
     setSelected(food)
     setQuery(food.name)
+  }
+
+  function handleSaveCustomFood() {
+    const name = cf.name.trim()
+    if (!name || !cf.calories || !cf.protein || !cf.carbs || !cf.fat) {
+      toast.error('Fill in all 5 fields')
+      return
+    }
+    const newFood = {
+      id:          `custom-${crypto.randomUUID()}`,
+      name,
+      category:    'custom',
+      servingSize: 1,
+      servingUnit: cf.servingUnit.trim() || 'serving',
+      calories:    parseFloat(cf.calories),
+      protein:     parseFloat(cf.protein),
+      carbs:       parseFloat(cf.carbs),
+      fat:         parseFloat(cf.fat),
+    }
+    dispatch(addCustomFood(newFood))
+    toast.success(`"${name}" saved to your foods`)
+    setSubMode('search')
+    setQuery(name)
+    setSelected(newFood)
+    setQuantity('1')
   }
 
   function handleSubmit() {
@@ -169,6 +209,7 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
               </div>
 
               {/* ── Search ── */}
+              {subMode === 'search' && (
               <div className={styles.searchWrap}>
                 <span className={styles.searchIcon}>🔍</span>
                 <input
@@ -189,9 +230,40 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
                   >✕</button>
                 )}
               </div>
+              )}
+
+              {/* ── Create custom food form ── */}
+              {subMode === 'create-custom' && (
+                <div className={styles.customForm}>
+                  <div className={styles.customFormRow}>
+                    <label className={styles.customLabel}>Food name</label>
+                    <input className="input" placeholder="e.g. Collagen Water" value={cf.name}
+                      onChange={e => setCf(p => ({ ...p, name: e.target.value }))} />
+                  </div>
+                  <div className={styles.customFormRow}>
+                    <label className={styles.customLabel}>Serving unit</label>
+                    <input className="input" placeholder="e.g. serving, glass, scoop" value={cf.servingUnit}
+                      onChange={e => setCf(p => ({ ...p, servingUnit: e.target.value }))} />
+                  </div>
+                  <div className={styles.customFormGrid}>
+                    {[['calories','Calories (kcal)'],['protein','Protein (g)'],['carbs','Carbs (g)'],['fat','Fat (g)']].map(([k, lbl]) => (
+                      <div key={k} className={styles.customFormCell}>
+                        <label className={styles.customLabel}>{lbl}</label>
+                        <input className="input" type="number" min="0" placeholder="0"
+                          value={cf[k]} onChange={e => setCf(p => ({ ...p, [k]: e.target.value }))} />
+                      </div>
+                    ))}
+                  </div>
+                  <div className={styles.customFormActions}>
+                    <button className="btn btn-ghost" onClick={() => setSubMode('search')}>Cancel</button>
+                    <motion.button className="btn btn-brand" onClick={handleSaveCustomFood}
+                      whileTap={{ scale: 0.97 }}>Save &amp; Add</motion.button>
+                  </div>
+                </div>
+              )}
 
               {/* Food list — hidden once a food is selected */}
-              {!selected && (
+              {subMode === 'search' && !selected && (
                 <div className={styles.foodList}>
                   {filtered.length === 0 && (
                     <div className={styles.empty}>No foods found for "{query}"</div>
@@ -217,6 +289,9 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
                       </div>
                     </button>
                   ))}
+                  <button className={styles.createCustomBtn} onClick={() => setSubMode('create-custom')}>
+                    ➕ Create custom food
+                  </button>
                 </div>
               )}
 

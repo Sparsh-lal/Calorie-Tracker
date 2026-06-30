@@ -23,20 +23,46 @@ export async function saveGoalsToFirestore(goals) {
   }
 }
 
+// ── Custom foods ─────────────────────────────────────────────────
+export async function saveCustomFoodsToFirestore(foods) {
+  const uid = auth.currentUser?.uid
+  if (!uid) return
+  try {
+    await setDoc(doc(db, 'users', uid, 'data', 'customFoods'), { foods })
+  } catch (e) {
+    console.error('Firestore save customFoods error:', e)
+  }
+}
+
+// ── Presets ──────────────────────────────────────────────────────
+export async function savePresetsToFirestore(presets) {
+  const uid = auth.currentUser?.uid
+  if (!uid) return
+  try {
+    await setDoc(doc(db, 'users', uid, 'data', 'presets'), { presets })
+  } catch (e) {
+    console.error('Firestore save presets error:', e)
+  }
+}
+
 // ── Load all data for a UID ──────────────────────────────────────
 export async function loadUserData(uid) {
   try {
-    const [logSnap, goalsSnap] = await Promise.all([
+    const [logSnap, goalsSnap, customFoodsSnap, presetsSnap] = await Promise.all([
       getDoc(doc(db, 'users', uid, 'data', 'foodLog')),
       getDoc(doc(db, 'users', uid, 'data', 'goals')),
+      getDoc(doc(db, 'users', uid, 'data', 'customFoods')),
+      getDoc(doc(db, 'users', uid, 'data', 'presets')),
     ])
     return {
-      entries: logSnap.exists()   ? logSnap.data().entries : {},
-      goals:   goalsSnap.exists() ? goalsSnap.data()       : null,
+      entries:     logSnap.exists()         ? logSnap.data().entries          : {},
+      goals:       goalsSnap.exists()       ? goalsSnap.data()                : null,
+      customFoods: customFoodsSnap.exists() ? customFoodsSnap.data().foods    : [],
+      presets:     presetsSnap.exists()     ? presetsSnap.data().presets      : [],
     }
   } catch (e) {
     console.error('Firestore load error:', e)
-    return { entries: {}, goals: null }
+    return { entries: {}, goals: null, customFoods: [], presets: [] }
   }
 }
 

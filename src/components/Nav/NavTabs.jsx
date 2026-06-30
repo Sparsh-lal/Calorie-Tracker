@@ -6,6 +6,7 @@ import styles from './NavTabs.module.css'
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: '📊' },
   { id: 'history',   label: 'History',   icon: '📅' },
+  { id: 'presets',   label: 'Presets',   icon: '🍱' },
   { id: 'goals',     label: 'Goals',     icon: '🎯' },
 ]
 

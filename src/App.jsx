@@ -6,11 +6,14 @@ import { auth } from './firebase'
 import { setUser, clearUser } from './store/slices/authSlice'
 import { clearEntries } from './store/slices/foodLogSlice'
 import { resetGoals } from './store/slices/goalsSlice'
+import { resetCustomFoods } from './store/slices/customFoodsSlice'
+import { resetPresets } from './store/slices/presetsSlice'
 import Header from './components/Header/Header'
 import NavTabs from './components/Nav/NavTabs'
 import DashboardPage from './components/Dashboard/DashboardPage'
 import HistoryPage from './components/History/HistoryPage'
 import GoalsPage from './components/Goals/GoalsPage'
+import PresetsPage from './components/Presets/PresetsPage'
 import AuthPage from './components/Auth/AuthPage'
 import { loadState } from './store/slices/persistSlice'
 
@@ -41,6 +44,8 @@ function App() {
         dispatch(clearUser())
         dispatch(clearEntries())
         dispatch(resetGoals())
+        dispatch(resetCustomFoods())
+        dispatch(resetPresets())
       }
     })
     return unsub
@@ -65,20 +70,20 @@ function App() {
     <div className="app-root">
       <Header />
 
-      {/* Greeting banner */}
+      {/* Greeting — compact, inline with nav */}
       <motion.div
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.3 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1, duration: 0.3 }}
         style={{
           textAlign: 'center',
-          padding: '10px 16px 0',
-          fontSize: 14,
+          padding: '6px 16px 0',
+          fontSize: 13,
           fontWeight: 600,
           color: 'var(--text-muted)',
         }}
       >
-        {getGreeting()}, <span style={{ color: 'var(--brand)', fontWeight: 800 }}>{user.name}</span>! 👋
+        {getGreeting()}, <span style={{ color: 'var(--brand)', fontWeight: 800 }}>{user.name}</span> 👋
       </motion.div>
 
       <NavTabs />
@@ -87,6 +92,7 @@ function App() {
         <AnimatePresence mode="wait">
           {page === 'dashboard' && <DashboardPage key="dashboard" />}
           {page === 'history'   && <HistoryPage   key="history" />}
+          {page === 'presets'   && <PresetsPage   key="presets" />}
           {page === 'goals'     && <GoalsPage      key="goals" />}
         </AnimatePresence>
       </main>

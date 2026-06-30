@@ -1,0 +1,387 @@
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 20px 16px 80px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.empty {
+  text-align: center;
+  padding: 56px 24px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ── Preset Cards ─────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.cardName {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cardCount {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.cardMacros {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.chip[data-type="cal"] { color: var(--cal, #f97316); }
+.chip[data-type="p"]   { color: var(--protein, #22c55e); }
+.chip[data-type="c"]   { color: var(--carbs, #3b82f6); }
+.chip[data-type="f"]   { color: var(--fat, #f59e0b); }
+
+.itemList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.itemIcon { font-size: 14px; flex-shrink: 0; }
+.itemName { flex: 1; }
+.itemQty  { font-weight: 600; color: var(--text-primary); }
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.cardActions .btn-brand { margin-left: auto; }
+
+/* ── Modal shared ─────────────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--bg-card);
+  border-radius: var(--r-2xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 6px;
+}
+.closeBtn:hover { background: var(--bg-hover); }
+
+.modalBody {
+  padding: 16px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px 18px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Editor ───────────────────────────────────────────────────────────────── */
+.nameInput { font-size: 15px; font-weight: 600; }
+
+.editorItems {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.editorItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-hover);
+  border-radius: var(--r-lg);
+  padding: 6px 10px;
+}
+
+.editorItemName {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.editorItemUnit {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.qtyInput {
+  width: 60px;
+  text-align: center;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.removeBtn:hover { color: var(--danger, #ef4444); background: color-mix(in srgb, #ef4444 10%, transparent); }
+
+.editorTotals {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  flex-wrap: wrap;
+  padding: 6px 10px;
+  background: var(--bg-hover);
+  border-radius: var(--r-lg);
+}
+.editorTotals [data-type="cal"] { color: var(--cal, #f97316); }
+.editorTotals [data-type="p"]   { color: var(--protein, #22c55e); }
+.editorTotals [data-type="c"]   { color: var(--carbs, #3b82f6); }
+.editorTotals [data-type="f"]   { color: var(--fat, #f59e0b); }
+
+/* ── Food search ──────────────────────────────────────────────────────────── */
+.searchSection { position: relative; }
+.searchWrap { position: relative; }
+.searchInput { width: 100%; box-sizing: border-box; }
+
+.foodDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-xl);
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.foodRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+.foodRow:last-child { border-bottom: none; }
+.foodRow:hover { background: var(--bg-hover); }
+
+.foodName { flex: 1; color: var(--text-primary); font-weight: 500; }
+.foodMeta { font-size: 12px; color: var(--text-muted); }
+.calBadge { font-size: 11px; font-weight: 700; color: var(--cal, #f97316); }
+
+.createBtn {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  text-align: center;
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  border-top: 1px dashed var(--border);
+  cursor: pointer;
+}
+.createBtn:hover { background: var(--bg-hover); }
+
+/* ── Custom food form ─────────────────────────────────────────────────────── */
+.cfForm {
+  background: var(--bg-hover);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cfRow { display: flex; flex-direction: column; gap: 4px; }
+.cfGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cfCell { display: flex; flex-direction: column; gap: 4px; }
+
+.cfLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cfActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ── Apply modal ──────────────────────────────────────────────────────────── */
+.applyModal { max-width: 380px; }
+
+.applyBody {
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.applyLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.applyDate { width: 100%; box-sizing: border-box; }
+
+.mealPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mealPill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.mealPill:hover { border-color: var(--brand); color: var(--brand); }
+.mealPillActive {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff !important;
+}
+
+@media (max-width: 480px) {
+  .modal { max-height: 96vh; border-radius: var(--r-xl) var(--r-xl) 0 0; }
+  .overlay { align-items: flex-end; padding: 0; }
+  .grid { grid-template-columns: 1fr; }
+}
