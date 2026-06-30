@@ -31,7 +31,7 @@ function ProfileCard({ profile, onApply }) {
   function handleCalculate() {
     const tdee = calcTDEE({ ...form, weight: Number(form.weight), height: Number(form.height), age: Number(form.age) })
     if (!tdee) { toast.error('Fill in weight, height and age'); return }
-    const macros = calcMacros(tdee.targetCalories, Number(form.weight))
+    const macros = calcMacros(tdee.targetCalories, Number(form.weight), form.goal)
     setResult({ ...tdee, ...macros })
   }
 
@@ -121,6 +121,24 @@ function ProfileCard({ profile, onApply }) {
           <div className={`${styles.resultRow} ${styles.resultTarget}`}>
             <span>🎯 Target calories</span><strong>{result.targetCalories} kcal</strong>
           </div>
+          {result.goalDelta !== 0 && (
+            <div className={styles.resultRow}>
+              <span>Daily {result.goalDelta < 0 ? 'deficit' : 'surplus'}</span>
+              <strong>{result.goalDelta > 0 ? '+' : ''}{result.goalDelta} kcal</strong>
+            </div>
+          )}
+          {result.weeklyRateKg > 0 && (
+            <div className={styles.resultRow}>
+              <span>Est. weekly {result.goalDelta < 0 ? 'loss' : 'gain'}</span>
+              <strong>~{result.weeklyRateKg} kg/week</strong>
+            </div>
+          )}
+          {result.weeksToGoal != null && (
+            <div className={styles.resultRow}>
+              <span>Est. weeks to goal</span>
+              <strong>~{result.weeksToGoal} weeks</strong>
+            </div>
+          )}
           <hr className="divider" />
           <div className={styles.resultMacros}>
             <span>💪 Protein <strong>{result.protein}g</strong></span>
