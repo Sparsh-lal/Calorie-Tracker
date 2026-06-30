@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { motion } from 'framer-motion'
+import { signOut } from 'firebase/auth'
+import { auth } from '../../firebase'
 import { toggleTheme } from '../../store/slices/uiSlice'
 import { exportAllData, saveToStorage } from '../../utils/storage'
 import { setEntries } from '../../store/slices/foodLogSlice'
@@ -109,6 +111,15 @@ export default function Header() {
               ref={importRef}
             />
           </motion.label>
+
+          <motion.button
+            className={styles.iconBtn}
+            onClick={() => signOut(auth).then(() => toast.success('Signed out'))}
+            whileTap={{ scale: 0.9 }}
+            title="Sign out"
+          >
+            🚪
+          </motion.button>
         </div>
       </div>
     </motion.header>

@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { saveToStorage } from '../../utils/storage'
+import { saveGoalsToFirestore } from '../../utils/firestore'
 import { DEFAULT_MEAL_NAMES } from '../../utils/tdeeCalc'
-
-const STORAGE_KEY = 'cal_goals'
 
 const DEFAULT_PROFILE = {
   weight:       70,         // kg
@@ -24,7 +22,7 @@ const DEFAULT_GOALS = {
 }
 
 function persist(state) {
-  saveToStorage(STORAGE_KEY, {
+  saveGoalsToFirestore({
     calories: state.calories,
     protein:  state.protein,
     carbs:    state.carbs,
@@ -62,7 +60,7 @@ const goalsSlice = createSlice({
       state.profile = { ...state.profile, ...action.payload }
       persist(state)
     },
-    /** Used by persistSlice to hydrate from localStorage */
+    /** Used by persistSlice to hydrate from Firestore */
     loadGoals(state, action) {
       const g = action.payload
       state.calories = Number(g.calories) || DEFAULT_GOALS.calories
@@ -74,8 +72,11 @@ const goalsSlice = createSlice({
                          : [...DEFAULT_MEAL_NAMES]
       state.profile  = g.profile ? { ...DEFAULT_PROFILE, ...g.profile } : { ...DEFAULT_PROFILE }
     },
+    resetGoals(state) {
+      Object.assign(state, { ...DEFAULT_GOALS })
+    },
   },
 })
 
-export const { setGoals, setMealName, setMeals, setProfile, loadGoals } = goalsSlice.actions
+export const { setGoals, setMealName, setMeals, setProfile, loadGoals, resetGoals } = goalsSlice.actions
 export default goalsSlice.reducer
