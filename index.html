@@ -12,6 +12,14 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      window.addEventListener('error', function(e) {
+        var root = document.getElementById('root')
+        if (root && !root.children.length) {
+          root.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;padding:24px;font-family:Inter,sans-serif;background:#0d1117;color:#f0f6fc"><span style="font-size:48px">⚠️</span><h2 style="margin:0;font-size:20px;font-weight:700">App failed to start</h2><pre style="background:#161b22;border:1px solid #30363d;border-radius:12px;padding:16px 20px;font-size:12px;max-width:600px;overflow:auto;color:#f85149;white-space:pre-wrap;word-break:break-all">' + (e.message || 'Unknown error') + '</pre></div>'
+        }
+      })
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

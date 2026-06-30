@@ -11,6 +11,15 @@ const firebaseConfig = {
   appId:             import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  throw new Error(
+    'Firebase config is missing. ' +
+    (import.meta.env.DEV
+      ? 'Create a .env.local file with VITE_FIREBASE_* variables.'
+      : 'GitHub Actions secrets (VITE_FIREBASE_*) are not configured.')
+  )
+}
+
 const app = initializeApp(firebaseConfig)
 
 export const auth = getAuth(app)
