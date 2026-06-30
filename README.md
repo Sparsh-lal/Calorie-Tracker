@@ -1,5 +1,7 @@
 # 🔥 Calorie Tracker
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-orange?style=for-the-badge&logo=github)](https://sparsh-lal.github.io/Calorie-Tracker/)
+
 A personal nutrition tracker built with **React + Vite + Redux Toolkit**. Log meals, track daily macros against your goals, and browse your history on a monthly calendar — all stored locally in the browser with no backend required.
 
 ---
