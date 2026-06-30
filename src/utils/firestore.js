@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, collection, getDocs, deleteDoc } from 'firebase/firestore'
 import { db, auth } from '../firebase'
 
 // ── Entries ─────────────────────────────────────────────────────
@@ -73,4 +73,25 @@ export async function saveUserProfile(uid, profile) {
   } catch (e) {
     console.error('Firestore save profile error:', e)
   }
+}
+// ── Global food database (admin-only writes) ─────────────────
+/** Read all overrides from the public /foods collection */
+export async function loadGlobalFoods() {
+  try {
+    const snap = await getDocs(collection(db, 'foods'))
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+  } catch (e) {
+    console.error('Firestore load global foods error:', e)
+    return []
+  }
+}
+
+/** Write a food override (admin only — enforced by Firestore rules) */
+export async function saveGlobalFood(food) {
+  await setDoc(doc(db, 'foods', food.id), food)
+}
+
+/** Delete a food override — reverts to foods.json defaults */
+export async function deleteGlobalFoodOverride(foodId) {
+  await deleteDoc(doc(db, 'foods', foodId))
 }

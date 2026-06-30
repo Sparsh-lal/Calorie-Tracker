@@ -32,14 +32,15 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
   const dispatch     = useDispatch()
   const meals        = useSelector(s => s.goals.meals)
   const customFoods  = useSelector(s => s.customFoods.foods)
+  const overrides    = useSelector(s => s.globalFoods.overrides)
   const searchRef    = useRef()
   const qtyRef       = useRef()
 
-  // Merge builtin + custom foods
+  // Merge builtin (with global overrides) + per-user custom foods
   const allFoods = useMemo(() => [
-    ...builtinFoods,
+    ...builtinFoods.map(f => overrides[f.id] ? { ...f, ...overrides[f.id] } : f),
     ...customFoods.map(f => ({ ...f, category: 'custom' }))
-  ], [customFoods])
+  ], [customFoods, overrides])
 
   const [query,        setQuery]        = useState('')
   const [selected,     setSelected]     = useState(null)

@@ -56,6 +56,10 @@
   border-radius: 2px 2px 0 0;
 }
 
+.adminTab { opacity: 0.75; }
+.adminTab.active { color: var(--accent); opacity: 1; }
+.adminTab.active .indicator { background: var(--accent); }
+
 @media (max-width: 480px) {
   .inner { padding: 0 12px; gap: 0; }
   .tab   { padding: 12px 14px; font-size: 12px; }

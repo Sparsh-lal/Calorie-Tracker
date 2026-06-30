@@ -14,6 +14,7 @@ import DashboardPage from './components/Dashboard/DashboardPage'
 import HistoryPage from './components/History/HistoryPage'
 import GoalsPage from './components/Goals/GoalsPage'
 import PresetsPage from './components/Presets/PresetsPage'
+import AdminPage from './components/Admin/AdminPage'
 import AuthPage from './components/Auth/AuthPage'
 import { loadState } from './store/slices/persistSlice'
 
@@ -55,6 +56,9 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
+
+  const ADMIN_UID = import.meta.env.VITE_ADMIN_UID
+  const isAdmin   = user && ADMIN_UID && user.uid === ADMIN_UID
 
   if (authLoading) {
     return (
@@ -119,6 +123,7 @@ function App() {
           {page === 'history'   && <HistoryPage   key="history" />}
           {page === 'presets'   && <PresetsPage   key="presets" />}
           {page === 'goals'     && <GoalsPage      key="goals" />}
+          {page === 'admin' && isAdmin && <AdminPage key="admin" />}
         </AnimatePresence>
       </main>
     </div>

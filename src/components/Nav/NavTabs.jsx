@@ -10,19 +10,25 @@ const TABS = [
   { id: 'goals',     label: 'Goals',     icon: '🎯' },
 ]
 
+const ADMIN_UID = import.meta.env.VITE_ADMIN_UID
+
 export default function NavTabs() {
   const dispatch = useDispatch()
   const page     = useSelector(s => s.ui.page)
+  const user     = useSelector(s => s.auth.user)
+
+  const isAdmin = user && ADMIN_UID && user.uid === ADMIN_UID
+  const tabs    = isAdmin ? [...TABS, { id: 'admin', label: 'Admin', icon: '🔐' }] : TABS
 
   return (
     <div className={styles.bar}>
       <div className={styles.inner}>
-        {TABS.map(tab => {
+        {tabs.map(tab => {
           const active = tab.id === page
           return (
             <button
               key={tab.id}
-              className={`${styles.tab} ${active ? styles.active : ''}`}
+              className={`${styles.tab} ${active ? styles.active : ''} ${tab.id === 'admin' ? styles.adminTab : ''}`}
               onClick={() => dispatch(setPage(tab.id))}
               aria-current={active ? 'page' : undefined}
             >

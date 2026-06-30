@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import foodLogReducer    from './slices/foodLogSlice'
-import goalsReducer      from './slices/goalsSlice'
-import uiReducer         from './slices/uiSlice'
-import authReducer       from './slices/authSlice'
+import foodLogReducer     from './slices/foodLogSlice'
+import goalsReducer       from './slices/goalsSlice'
+import uiReducer          from './slices/uiSlice'
+import authReducer        from './slices/authSlice'
 import customFoodsReducer from './slices/customFoodsSlice'
-import presetsReducer    from './slices/presetsSlice'
+import presetsReducer     from './slices/presetsSlice'
+import globalFoodsReducer from './slices/globalFoodsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     auth:        authReducer,
     customFoods: customFoodsReducer,
     presets:     presetsReducer,
+    globalFoods: globalFoodsReducer,
   },
 })

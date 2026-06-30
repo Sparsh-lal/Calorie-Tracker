@@ -6,7 +6,7 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState: {
     theme:      'light',       // 'light' | 'dark'
-    page:       'dashboard',   // 'dashboard' | 'history' | 'goals' | 'presets'
+    page:       'dashboard',   // 'dashboard' | 'history' | 'goals' | 'presets' | 'admin'
     activeDate: todayKey(),    // "YYYY-MM-DD" used by History
   },
   reducers: {

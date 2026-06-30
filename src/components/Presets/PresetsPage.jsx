@@ -29,12 +29,13 @@ export default function PresetsPage() {
   const dispatch    = useDispatch()
   const presets     = useSelector(s => s.presets.presets)
   const customFoods = useSelector(s => s.customFoods.foods)
+  const overrides   = useSelector(s => s.globalFoods.overrides)
   const meals       = useSelector(s => s.goals.meals)
 
   const allFoods = useMemo(() => [
-    ...builtinFoods,
+    ...builtinFoods.map(f => overrides[f.id] ? { ...f, ...overrides[f.id] } : f),
     ...customFoods.map(f => ({ ...f, category: 'custom' }))
-  ], [customFoods])
+  ], [customFoods, overrides])
 
   // Editor modal state
   const [editing,     setEditing]     = useState(null)   // null | { id?, name, items[] }
