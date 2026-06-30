@@ -366,6 +366,95 @@
   .previewRow { grid-template-columns: 1fr 1fr; }
 }
 
+/* Tab bar */
+.tabBar {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.tab {
+  flex: 1;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--r);
+  border: 1.5px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s var(--ease);
+}
+
+.tab:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-light);
+}
+
+.tabActive {
+  border-color: var(--brand) !important;
+  background: var(--brand) !important;
+  color: #fff !important;
+}
+
+/* Presets list */
+.presetList {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--bg-subtle);
+  display: flex;
+  flex-direction: column;
+}
+
+.presetRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.14s;
+  text-align: left;
+  width: 100%;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.presetRow:last-child { border-bottom: none; }
+.presetRow:hover { background: var(--bg-card-hover); }
+
+.presetTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.presetName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.presetCount {
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.presetMacros {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
 /* Create custom food form */
 .createCustomBtn {
   display: block;

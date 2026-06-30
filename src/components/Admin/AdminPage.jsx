@@ -53,13 +53,18 @@ export default function AdminPage() {
 
   const foods = useMemo(() => {
     const q = search.trim().toLowerCase()
-    return builtinFoods
-      .map(f => overrides[f.id] ? { ...f, ...overrides[f.id], _edited: true } : f)
-      .filter(f => {
-        const matchQ   = !q || f.name.toLowerCase().includes(q) || f.category.toLowerCase().includes(q)
-        const matchCat = catFilter === 'all' || f.category === catFilter
-        return matchQ && matchCat
-      })
+    const builtinIds = new Set(builtinFoods.map(f => f.id))
+    const addedFoods = Object.values(overrides)
+      .filter(f => !builtinIds.has(f.id))
+      .map(f => ({ ...f, _edited: true, _new: true }))
+    return [
+      ...builtinFoods.map(f => overrides[f.id] ? { ...f, ...overrides[f.id], _edited: true } : f),
+      ...addedFoods,
+    ].filter(f => {
+      const matchQ   = !q || f.name.toLowerCase().includes(q) || f.category.toLowerCase().includes(q)
+      const matchCat = catFilter === 'all' || f.category === catFilter
+      return matchQ && matchCat
+    })
   }, [search, catFilter, overrides])
 
   const editedCount = Object.keys(overrides).length
@@ -80,17 +85,26 @@ export default function AdminPage() {
 
   function closeEdit() { setEditing(null) }
 
+  function openNew() {
+    setEditing({ id: null })
+    setForm({ name: '', category: 'protein', servingSize: '100', servingUnit: 'g', calories: '', protein: '', carbs: '', fat: '' })
+  }
+
   async function handleSave() {
     const name = form.name.trim()
     if (!name) { toast.error('Name required'); return }
     setSaving(true)
     try {
+      const isNew = !editing.id
+      const id = isNew
+        ? name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36)
+        : editing.id
       const updated = {
-        id:          editing.id,
+        id,
         name,
-        category:    form.category.trim() || editing.category,
-        servingSize: parseFloat(form.servingSize) || editing.servingSize,
-        servingUnit: form.servingUnit.trim() || editing.servingUnit,
+        category:    form.category.trim() || (editing.category ?? 'protein'),
+        servingSize: parseFloat(form.servingSize) || (editing.servingSize ?? 100),
+        servingUnit: form.servingUnit.trim() || (editing.servingUnit ?? 'g'),
         calories:    parseFloat(form.calories) || 0,
         protein:     parseFloat(form.protein)  || 0,
         carbs:       parseFloat(form.carbs)    || 0,
@@ -98,7 +112,7 @@ export default function AdminPage() {
       }
       await saveGlobalFood(updated)
       dispatch(upsertOverride(updated))
-      toast.success(`"${updated.name}" updated globally ✓`)
+      toast.success(`"${updated.name}" ${isNew ? 'added' : 'updated'} globally ✓`)
       closeEdit()
     } catch (e) {
       toast.error('Save failed: ' + e.message)
@@ -136,6 +150,9 @@ export default function AdminPage() {
           <div className={styles.statChip} data-type="edited">{editedCount} edited</div>
           <div className={styles.statChip}>{builtinFoods.length} total</div>
         </div>
+        <motion.button className="btn btn-brand" onClick={openNew} whileTap={{ scale: 0.97 }}>
+          ➕ Add Food
+        </motion.button>
       </div>
 
       {/* Filters */}
@@ -183,7 +200,8 @@ export default function AdminPage() {
             <span className={styles.colFood}>
               <span className={styles.foodIcon}>{CATEGORY_ICONS[food.category] || '🍽️'}</span>
               <span className={styles.foodName}>{food.name}</span>
-              {food._edited && <span className={styles.editedBadge}>edited</span>}
+              {food._new && <span className={styles.editedBadge}>new</span>}
+              {food._edited && !food._new && <span className={styles.editedBadge}>edited</span>}
             </span>
             <span className={styles.colNum}>{food.servingSize} {food.servingUnit}</span>
             <span className={styles.colNum} data-type="cal">{food.calories}</span>
@@ -193,7 +211,9 @@ export default function AdminPage() {
             <span className={styles.colAct}>
               <button className={styles.editBtn} onClick={() => openEdit(food)}>✏️</button>
               {food._edited && (
-                <button className={styles.resetBtn} onClick={e => handleReset(food, e)} title="Reset to default">↩</button>
+                <button className={styles.resetBtn} onClick={e => handleReset(food, e)} title={food._new ? 'Delete' : 'Reset to default'}>
+                  {food._new ? '🗑️' : '↩'}
+                </button>
               )}
             </span>
           </div>
@@ -221,8 +241,8 @@ export default function AdminPage() {
             >
               <div className={styles.modalHeader}>
                 <div>
-                  <h3 className={styles.modalTitle}>Edit Food</h3>
-                  <p className={styles.modalSub}>{editing.id}</p>
+                  <h3 className={styles.modalTitle}>{editing.id ? 'Edit Food' : 'Add New Food'}</h3>
+                  <p className={styles.modalSub}>{editing.id ?? 'New global food item'}</p>
                 </div>
                 <button className={styles.closeBtn} onClick={closeEdit}>✕</button>
               </div>
@@ -295,7 +315,7 @@ export default function AdminPage() {
                   disabled={saving}
                   whileTap={{ scale: 0.97 }}
                 >
-                  {saving ? 'Saving…' : '💾 Save globally'}
+                  {saving ? 'Saving…' : (editing.id ? '💾 Save globally' : '➕ Add globally')}
                 </motion.button>
               </div>
             </motion.div>

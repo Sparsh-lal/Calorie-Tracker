@@ -32,10 +32,14 @@ export default function PresetsPage() {
   const overrides   = useSelector(s => s.globalFoods.overrides)
   const meals       = useSelector(s => s.goals.meals)
 
-  const allFoods = useMemo(() => [
-    ...builtinFoods.map(f => overrides[f.id] ? { ...f, ...overrides[f.id] } : f),
-    ...customFoods.map(f => ({ ...f, category: 'custom' }))
-  ], [customFoods, overrides])
+  const allFoods = useMemo(() => {
+    const builtinIds = new Set(builtinFoods.map(f => f.id))
+    return [
+      ...builtinFoods.map(f => overrides[f.id] ? { ...f, ...overrides[f.id] } : f),
+      ...Object.values(overrides).filter(f => !builtinIds.has(f.id)),
+      ...customFoods.map(f => ({ ...f, category: 'custom' }))
+    ]
+  }, [customFoods, overrides])
 
   // Editor modal state
   const [editing,     setEditing]     = useState(null)   // null | { id?, name, items[] }

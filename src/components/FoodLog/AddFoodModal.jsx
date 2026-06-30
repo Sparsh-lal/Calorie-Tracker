@@ -33,14 +33,19 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
   const meals        = useSelector(s => s.goals.meals)
   const customFoods  = useSelector(s => s.customFoods.foods)
   const overrides    = useSelector(s => s.globalFoods.overrides)
+  const presets      = useSelector(s => s.presets.presets)
   const searchRef    = useRef()
   const qtyRef       = useRef()
 
-  // Merge builtin (with global overrides) + per-user custom foods
-  const allFoods = useMemo(() => [
-    ...builtinFoods.map(f => overrides[f.id] ? { ...f, ...overrides[f.id] } : f),
-    ...customFoods.map(f => ({ ...f, category: 'custom' }))
-  ], [customFoods, overrides])
+  // Merge builtin (with global overrides) + admin-added globals + per-user custom foods
+  const allFoods = useMemo(() => {
+    const builtinIds = new Set(builtinFoods.map(f => f.id))
+    return [
+      ...builtinFoods.map(f => overrides[f.id] ? { ...f, ...overrides[f.id] } : f),
+      ...Object.values(overrides).filter(f => !builtinIds.has(f.id)),
+      ...customFoods.map(f => ({ ...f, category: 'custom' }))
+    ]
+  }, [customFoods, overrides])
 
   const [query,        setQuery]        = useState('')
   const [selected,     setSelected]     = useState(null)
@@ -48,6 +53,8 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
   const [selectedMeal, setSelectedMeal] = useState(null)
   // 'search' | 'create-custom'
   const [subMode,      setSubMode]      = useState('search')
+  // 'foods' | 'presets'
+  const [activeTab,    setActiveTab]    = useState('foods')
 
   // Create-custom-food form state
   const [cf, setCf] = useState({ name: '', servingUnit: 'serving', calories: '', protein: '', carbs: '', fat: '' })
@@ -56,6 +63,7 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
   useEffect(() => {
     if (!isOpen) return
     setSubMode('search')
+    setActiveTab('foods')
     setCf({ name: '', servingUnit: 'serving', calories: '', protein: '', carbs: '', fat: '' })
     if (editEntry) {
       const food = allFoods.find(f => f.id === editEntry.foodId)
@@ -99,6 +107,30 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
   function handleSelectFood(food) {
     setSelected(food)
     setQuery(food.name)
+  }
+
+  function handleApplyPreset(preset) {
+    if (!selectedMeal) return
+    preset.items.forEach(item => {
+      dispatch(addEntry({
+        dateKey,
+        entry: {
+          id:          crypto.randomUUID(),
+          foodId:      item.foodId,
+          foodName:    item.foodName,
+          servingSize: item.servingSize,
+          servingUnit: item.servingUnit,
+          quantity:    item.quantity,
+          meal:        selectedMeal,
+          calories:    item.calories,
+          protein:     item.protein,
+          carbs:       item.carbs,
+          fat:         item.fat,
+        },
+      }))
+    })
+    toast.success(`"${preset.name}" added to ${selectedMeal}`)
+    onClose()
   }
 
   function handleSaveCustomFood() {
@@ -209,8 +241,22 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
                 </div>
               </div>
 
+              {/* ── Tab bar (add mode only) ── */}
+              {!editEntry && (
+                <div className={styles.tabBar}>
+                  <button
+                    className={`${styles.tab} ${activeTab === 'foods' ? styles.tabActive : ''}`}
+                    onClick={() => setActiveTab('foods')}
+                  >🍎 Foods</button>
+                  <button
+                    className={`${styles.tab} ${activeTab === 'presets' ? styles.tabActive : ''}`}
+                    onClick={() => { setActiveTab('presets'); setSelected(null); setQuery('') }}
+                  >🍱 Presets</button>
+                </div>
+              )}
+
               {/* ── Search ── */}
-              {subMode === 'search' && (
+              {subMode === 'search' && (editEntry || activeTab === 'foods') && (
               <div className={styles.searchWrap}>
                 <span className={styles.searchIcon}>🔍</span>
                 <input
@@ -234,7 +280,7 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
               )}
 
               {/* ── Create custom food form ── */}
-              {subMode === 'create-custom' && (
+              {subMode === 'create-custom' && (editEntry || activeTab === 'foods') && (
                 <div className={styles.customForm}>
                   <div className={styles.customFormRow}>
                     <label className={styles.customLabel}>Food name</label>
@@ -264,7 +310,7 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
               )}
 
               {/* Food list — hidden once a food is selected */}
-              {subMode === 'search' && !selected && (
+              {subMode === 'search' && !selected && (editEntry || activeTab === 'foods') && (
                 <div className={styles.foodList}>
                   {filtered.length === 0 && (
                     <div className={styles.empty}>No foods found for "{query}"</div>
@@ -296,8 +342,38 @@ export default function AddFoodModal({ isOpen, onClose, dateKey, editEntry = nul
                 </div>
               )}
 
+              {/* ── Presets list ── */}
+              {!editEntry && activeTab === 'presets' && (
+                <div className={styles.presetList}>
+                  {presets.length === 0 ? (
+                    <div className={styles.empty}>No presets yet. Create them in the Presets tab.</div>
+                  ) : presets.map(preset => {
+                    const total = preset.items.reduce((a, i) => ({
+                      calories: a.calories + (i.calories || 0),
+                      protein:  a.protein  + (i.protein  || 0),
+                      carbs:    a.carbs    + (i.carbs    || 0),
+                      fat:      a.fat      + (i.fat      || 0),
+                    }), { calories: 0, protein: 0, carbs: 0, fat: 0 })
+                    return (
+                      <button key={preset.id} className={styles.presetRow} onClick={() => handleApplyPreset(preset)}>
+                        <div className={styles.presetTop}>
+                          <span className={styles.presetName}>{preset.name}</span>
+                          <span className={styles.presetCount}>{preset.items.length} item{preset.items.length !== 1 ? 's' : ''}</span>
+                        </div>
+                        <div className={styles.presetMacros}>
+                          <span className={styles.macroChip} data-type="cal">{Math.round(total.calories)} kcal</span>
+                          <span className={styles.macroChip} data-type="p">{Math.round(total.protein)}g P</span>
+                          <span className={styles.macroChip} data-type="c">{Math.round(total.carbs)}g C</span>
+                          <span className={styles.macroChip} data-type="f">{Math.round(total.fat)}g F</span>
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+
               {/* Quantity + preview panel */}
-              {selected && (
+              {selected && (editEntry || activeTab === 'foods') && (
                 <motion.div
                   className={styles.panel}
                   initial={{ opacity: 0, y: 10 }}
