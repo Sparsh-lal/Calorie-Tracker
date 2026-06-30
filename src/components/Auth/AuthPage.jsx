@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,6 +8,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { auth } from '../../firebase'
 import { saveUserProfile } from '../../utils/firestore'
+import { toggleTheme } from '../../store/slices/uiSlice'
 import toast from 'react-hot-toast'
 import styles from './AuthPage.module.css'
 
@@ -201,11 +203,23 @@ function AuthForm({ mode, onBack }) {
 export default function AuthPage() {
   // 'landing' | 'login' | 'register'
   const [view, setView] = useState('landing')
+  const dispatch = useDispatch()
+  const theme    = useSelector(s => s.ui.theme)
 
   return (
     <div className={styles.page}>
       <div className={styles.blob1} />
       <div className={styles.blob2} />
+
+      {/* Theme toggle */}
+      <motion.button
+        className={styles.themeBtn}
+        onClick={() => dispatch(toggleTheme())}
+        whileTap={{ scale: 0.9 }}
+        title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      >
+        {theme === 'light' ? '🌙' : '☀️'}
+      </motion.button>
 
       <div className={`card ${styles.card}`}>
         <AnimatePresence mode="wait">
