@@ -168,7 +168,7 @@ function AuthForm({ mode, onBack }) {
 
         <div className={styles.field}>
           <label className={styles.label}>Username</label>
-          <input className="input" type="text" placeholder="e.g. sparsh_lal"
+          <input className="input" type="text" placeholder="e.g. sparsh_the_great"
             value={username} onChange={e => setUsername(e.target.value)}
             autoComplete="username" disabled={loading} autoFocus />
         </div>

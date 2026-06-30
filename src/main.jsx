@@ -4,12 +4,15 @@ import { Provider } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
 import { store } from './store/store'
 import App from './App'
+import ErrorBoundary from './components/ErrorBoundary'
 import './styles/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
       <Toaster
         position="bottom-center"
         toastOptions={{
