@@ -32,7 +32,7 @@ const FEATURES = [
 ]
 
 // ── Landing ──────────────────────────────────────────────────────
-function Landing({ onSignIn, onRegister }) {
+function Landing({ onSignIn, onRegister, onGuest }) {
   return (
     <motion.div
       key="landing"
