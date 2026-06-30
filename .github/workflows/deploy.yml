@@ -32,7 +32,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_ADMIN_UID: ${{ secrets.VITE_ADMIN_UID }}
+          VITE_ADMIN_UID: REDACTED_ADMIN_UID
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
