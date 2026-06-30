@@ -1,0 +1,39 @@
+.dateRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.dateHeading {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.4px;
+}
+
+.todayBadge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  background: var(--brand-light);
+  color: var(--brand);
+  border: 1px solid var(--cal-border);
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+}
+
+.macroGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) { .macroGrid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .macroGrid { grid-template-columns: 1fr 1fr; } }
+
+.logSection {
+  /* inherits card style from FoodLogTable */
+}

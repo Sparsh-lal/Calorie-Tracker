@@ -1,0 +1,379 @@
+/* ================================================================
+   Calorie Tracker — Global Styles
+   Production-grade design system with light/dark mode
+   (Based on Attendance-tracker design system)
+================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ----------------------------------------------------------------
+   1. DESIGN TOKENS — Light Mode
+---------------------------------------------------------------- */
+:root {
+  /* Backgrounds */
+  --bg-root:        #f0f2f8;
+  --bg-card:        #ffffff;
+  --bg-card-hover:  #fafbff;
+  --bg-subtle:      #f7f8fc;
+  --bg-overlay:     rgba(15, 23, 42, 0.72);
+
+  /* Brand — warm orange/red for food theme */
+  --brand:          #f97316;
+  --brand-dark:     #ea580c;
+  --brand-light:    #fff7ed;
+  --brand-gradient: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+
+  /* Text */
+  --text:           #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+  --text-invert:    #ffffff;
+
+  /* Border */
+  --border:         #e2e8f0;
+  --border-focus:   #f97316;
+
+  /* Shadows */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,.04);
+  --shadow-sm:  0 2px 6px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:  0 12px 32px rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.06);
+  --shadow-xl:  0 24px 48px rgba(0,0,0,.14), 0 8px 16px rgba(0,0,0,.08);
+  --shadow-brand: 0 8px 24px rgba(249, 115, 22, 0.35);
+
+  /* Macro colours */
+  --cal:        #f97316;
+  --cal-bg:     #fff7ed;
+  --cal-border: #fed7aa;
+  --cal-grad:   linear-gradient(135deg, #fb923c, #ea580c);
+
+  --protein:        #059669;
+  --protein-bg:     #ecfdf5;
+  --protein-border: #a7f3d0;
+  --protein-grad:   linear-gradient(135deg, #34d399, #059669);
+
+  --carbs:        #2563eb;
+  --carbs-bg:     #eff6ff;
+  --carbs-border: #bfdbfe;
+  --carbs-grad:   linear-gradient(135deg, #60a5fa, #2563eb);
+
+  --fat:        #d97706;
+  --fat-bg:     #fffbeb;
+  --fat-border: #fde68a;
+  --fat-grad:   linear-gradient(135deg, #fbbf24, #d97706);
+
+  /* Danger */
+  --danger:    #dc2626;
+  --danger-bg: #fef2f2;
+
+  /* Success */
+  --success:    #059669;
+  --success-bg: #ecfdf5;
+
+  /* Radii */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r:      12px;
+  --r-lg:   16px;
+  --r-xl:   20px;
+  --r-2xl:  28px;
+  --r-full: 9999px;
+
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Animation */
+  --ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ----------------------------------------------------------------
+   2. DARK MODE
+---------------------------------------------------------------- */
+[data-theme="dark"] {
+  --bg-root:       #0d1117;
+  --bg-card:       #161b22;
+  --bg-card-hover: #1c2333;
+  --bg-subtle:     #21262d;
+  --bg-overlay:    rgba(0, 0, 0, 0.82);
+
+  --brand:         #fb923c;
+  --brand-dark:    #f97316;
+  --brand-light:   #431407;
+  --brand-gradient: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ef4444 100%);
+
+  --text:          #f0f6fc;
+  --text-secondary:#8b949e;
+  --text-muted:    #484f58;
+  --text-invert:   #0d1117;
+
+  --border:        #30363d;
+  --border-focus:  #fb923c;
+
+  --shadow-xs:  0 1px 2px rgba(0,0,0,.3);
+  --shadow-sm:  0 2px 6px rgba(0,0,0,.4);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.5);
+  --shadow-lg:  0 12px 32px rgba(0,0,0,.6);
+  --shadow-xl:  0 24px 48px rgba(0,0,0,.7);
+  --shadow-brand: 0 8px 24px rgba(251, 146, 60, 0.25);
+
+  --cal:        #fb923c;
+  --cal-bg:     rgba(249, 115, 22, 0.12);
+  --cal-border: rgba(249, 115, 22, 0.28);
+
+  --protein:        #34d399;
+  --protein-bg:     rgba(52, 211, 153, 0.10);
+  --protein-border: rgba(52, 211, 153, 0.25);
+
+  --carbs:        #60a5fa;
+  --carbs-bg:     rgba(96, 165, 250, 0.10);
+  --carbs-border: rgba(96, 165, 250, 0.25);
+
+  --fat:        #fbbf24;
+  --fat-bg:     rgba(251, 191, 36, 0.10);
+  --fat-border: rgba(251, 191, 36, 0.25);
+
+  --danger:    #f85149;
+  --danger-bg: rgba(248, 81, 73, 0.10);
+
+  --success:    #34d399;
+  --success-bg: rgba(52, 211, 153, 0.10);
+}
+
+/* ----------------------------------------------------------------
+   3. RESET
+---------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-root);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+button { cursor: pointer; font-family: inherit; border: none; background: none; color: inherit; }
+input, select, textarea { font-family: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* ----------------------------------------------------------------
+   4. LAYOUT
+---------------------------------------------------------------- */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-bottom: 60px;
+}
+
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-pad    { padding-top: 28px; }
+.section-pad-sm { padding-top: 20px; }
+
+@media (max-width: 600px) {
+  .container { padding: 0 16px; }
+}
+
+/* ----------------------------------------------------------------
+   5. CARD BASE
+---------------------------------------------------------------- */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease),
+              box-shadow 0.2s var(--ease);
+}
+
+.card-pad    { padding: 24px; }
+.card-pad-sm { padding: 20px; }
+.card-pad-xs { padding: 16px; }
+
+/* ----------------------------------------------------------------
+   6. BUTTONS
+---------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 20px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.18s var(--ease);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn-brand {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(249,115,22,.35);
+}
+.btn-brand:hover {
+  background: var(--brand-dark);
+  box-shadow: var(--shadow-brand);
+  transform: translateY(-1px);
+}
+.btn-brand:active { transform: scale(0.97); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+}
+.btn-outline:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-light);
+}
+
+.btn-ghost {
+  color: var(--text-muted);
+  padding: 6px 10px;
+}
+.btn-ghost:hover {
+  background: var(--bg-subtle);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1.5px solid transparent;
+}
+.btn-danger:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------
+   7. FORM CONTROLS
+---------------------------------------------------------------- */
+.input {
+  padding: 9px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--bg-subtle);
+  font-size: 13px;
+  outline: none;
+  color: var(--text);
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.3s;
+  width: 100%;
+}
+.input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+  background: var(--bg-card);
+}
+.input::placeholder { color: var(--text-muted); }
+
+/* ----------------------------------------------------------------
+   8. SCROLLBAR
+---------------------------------------------------------------- */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 100px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ----------------------------------------------------------------
+   9. UTILITY
+---------------------------------------------------------------- */
+.hidden { display: none !important; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ----------------------------------------------------------------
+   10. SECTION HEADERS
+---------------------------------------------------------------- */
+.section-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 16px;
+  letter-spacing: -0.3px;
+}
+
+.section-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* ----------------------------------------------------------------
+   11. BADGE
+---------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--r-full);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.badge-cal     { background: var(--cal-bg);     color: var(--cal);     border: 1px solid var(--cal-border); }
+.badge-protein { background: var(--protein-bg); color: var(--protein); border: 1px solid var(--protein-border); }
+.badge-carbs   { background: var(--carbs-bg);   color: var(--carbs);   border: 1px solid var(--carbs-border); }
+.badge-fat     { background: var(--fat-bg);     color: var(--fat);     border: 1px solid var(--fat-border); }
+
+/* ----------------------------------------------------------------
+   12. DIVIDER
+---------------------------------------------------------------- */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+
+/* Framer Motion page-transition helper */
+.page-enter   { opacity: 0; transform: translateY(12px); }
+.page-animate { opacity: 1; transform: translateY(0); }

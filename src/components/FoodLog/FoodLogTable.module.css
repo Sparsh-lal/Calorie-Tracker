@@ -1,0 +1,280 @@
+.wrap { overflow: hidden; }
+
+/* ── Table header ─────────────────────────────── */
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tableTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+/* Daily summary chips inside table header */
+.dailySummary {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+/* ── Chips ─────────────────────────────────────── */
+.dchip, .mchip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--r-full);
+  border: 1px solid;
+}
+
+.calChip { background: var(--cal-bg);     color: var(--cal);     border-color: var(--cal-border); }
+.pChip   { background: var(--protein-bg); color: var(--protein); border-color: var(--protein-border); }
+.cChip   { background: var(--carbs-bg);   color: var(--carbs);   border-color: var(--carbs-border); }
+.fChip   { background: var(--fat-bg);     color: var(--fat);     border-color: var(--fat-border); }
+
+/* ── Column headers ────────────────────────────── */
+.colHeaders {
+  display: grid;
+  grid-template-columns: 1fr 70px 60px 52px 52px 52px 60px;
+  padding: 7px 20px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+}
+
+.colFood {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 8px;
+}
+
+.colQty {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  text-align: right;
+  padding-right: 8px;
+}
+
+.colMacro {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  text-align: right;
+  padding-right: 8px;
+}
+
+.colAct {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3px;
+  padding-right: 6px;
+}
+
+.cal  { color: var(--cal); }
+.prot { color: var(--protein); }
+.carb { color: var(--carbs); }
+.fat  { color: var(--fat); }
+
+/* colHeaders overrides — use muted for all */
+.colHeaders .cal,
+.colHeaders .prot,
+.colHeaders .carb,
+.colHeaders .fat { color: var(--text-muted); }
+
+/* ── Meal section ──────────────────────────────── */
+.mealSection {
+  border-bottom: 1px solid var(--border);
+}
+.mealSection:last-of-type { border-bottom: none; }
+
+.mealHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.mealIcon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.mealName {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.mealTotals {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.mealAddBtn {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-light);
+  border: 1.5px solid var(--brand);
+  border-radius: var(--r-full);
+  padding: 3px 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.mealAddBtn:hover { background: var(--brand); color: #fff; }
+
+.mealEmpty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.mealAddEmptyLink {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brand);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  cursor: pointer;
+  transition: text-decoration-color 0.15s;
+}
+.mealAddEmptyLink:hover { text-decoration-color: var(--brand); }
+
+/* ── Entry row ─────────────────────────────────── */
+.entryRow {
+  display: grid;
+  grid-template-columns: 1fr 70px 60px 52px 52px 52px 60px;
+  align-items: center;
+  padding: 9px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+  overflow: hidden;
+}
+.entryRow:last-child { border-bottom: none; }
+.entryRow:hover { background: var(--bg-card-hover); }
+
+.entryRow .colFood {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 8px;
+}
+
+.entryRow .colQty {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: right;
+  padding-right: 8px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.unit {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.entryRow .colMacro {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+  padding-right: 8px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.actionBtn {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.1s;
+  background: transparent;
+  border: none;
+}
+.actionBtn:hover { background: var(--bg-subtle); transform: scale(1.12); }
+.deleteBtn:hover { background: var(--danger-bg); }
+
+/* ── Daily totals row ──────────────────────────── */
+.totalsRow {
+  display: grid;
+  grid-template-columns: 1fr 70px 60px 52px 52px 52px 60px;
+  align-items: center;
+  padding: 10px 20px;
+  background: var(--bg-subtle);
+  border-top: 1.5px solid var(--border);
+}
+
+.totalsRow .colFood {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding-right: 8px;
+}
+
+.itemCount { font-weight: 400; color: var(--text-muted); font-size: 11px; }
+
+.totalVal {
+  font-size: 12px;
+  font-weight: 800;
+  text-align: right;
+  padding-right: 8px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 640px) {
+  .colHeaders,
+  .entryRow,
+  .totalsRow { grid-template-columns: 1fr 56px 56px 46px 46px 46px 50px; }
+}
+
+@media (max-width: 480px) {
+  .colHeaders,
+  .entryRow,
+  .totalsRow { grid-template-columns: 1fr 54px 56px 48px 48px; }
+  .carb, .fat { display: none; }
+  .cChip, .fChip { display: none; }
+}

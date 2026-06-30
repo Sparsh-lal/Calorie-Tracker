@@ -1,0 +1,267 @@
+/* ── Month navigation ──────────────────────────── */
+.monthNav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.monthNavBtn { flex-shrink: 0; }
+
+.monthNavBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.monthTitle {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.4px;
+}
+
+/* ── Calendar wrapper card ─────────────────────── */
+.calWrap {
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+/* Day-of-week header */
+.dowRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+}
+
+.dowCell {
+  text-align: center;
+  padding: 9px 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+/* Grid of day cells */
+.calGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* Ghost (empty offset) cells */
+.calGhost {
+  min-height: 108px;
+  background: var(--bg-subtle);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  opacity: 0.5;
+}
+
+/* Individual day cell */
+.calCell {
+  min-height: 108px;
+  padding: 10px 10px 8px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: background 0.14s, box-shadow 0.14s;
+  user-select: none;
+  /* Remove last-column right border via nth-child handled by grid overflow */
+}
+
+.calCell:nth-child(7n) { border-right: none; }
+
+/* Remove bottom border on last row — handled by card overflow:hidden */
+
+.calCell:hover:not(.calFuture):not(.calActive) {
+  background: var(--bg-card-hover);
+}
+
+/* States */
+.calActive {
+  background: var(--brand-light) !important;
+  box-shadow: inset 0 0 0 2px var(--brand);
+  z-index: 1;
+}
+
+.calFuture {
+  opacity: 0.28;
+  cursor: default;
+  background: var(--bg-subtle);
+}
+
+.calNoData {
+  background: var(--bg-subtle);
+}
+
+/* Top row: date number + today badge */
+.cellTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  min-height: 22px;
+}
+
+.cellDayNum {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* Today: wrap day number in a brand circle */
+.calToday .cellDayNum {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-size: 11.5px;
+}
+
+.todayBadge {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--brand-light);
+  color: var(--brand);
+  border: 1px solid var(--cal-border);
+  padding: 1px 5px;
+  border-radius: var(--r-full);
+  flex-shrink: 0;
+}
+
+/* Calorie progress bar */
+.calBarTrack {
+  height: 4px;
+  background: var(--border);
+  border-radius: var(--r-full);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.calBarFill {
+  height: 100%;
+  border-radius: var(--r-full);
+  min-width: 2px;
+}
+
+/* 4 macro value rows */
+.cellMacros {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.mv {
+  font-size: 10.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Macro colours */
+.mvCal { /* colour set inline via style prop (handles over-goal red) */ }
+.mvP   { color: var(--protein); }
+.mvC   { color: var(--carbs); }
+.mvF   { color: var(--fat); }
+
+.noDataLabel {
+  font-size: 13px;
+  color: var(--text-muted);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+}
+
+/* ── Day detail section ────────────────────────── */
+.dayDetail { /* flows naturally below the calendar */ }
+
+.dayDetailNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 0 16px;
+  border-top: 2px solid var(--border);
+}
+
+.dayDetailNav .btn-ghost:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.dayDetailTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  text-align: center;
+  flex: 1;
+}
+
+.macroGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) { .macroGrid { grid-template-columns: 1fr 1fr; } }
+
+.futureMsg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 20px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.futureMsg span:first-child { font-size: 28px; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 780px) {
+  .calCell    { min-height: 90px; padding: 8px 7px 6px; }
+  .mv         { font-size: 9.5px; }
+  .cellDayNum { font-size: 12px; }
+  .todayBadge { display: none; }
+}
+
+@media (max-width: 560px) {
+  .calCell    { min-height: 72px; padding: 6px 5px 5px; gap: 3px; }
+  .mv         { font-size: 8.5px; }
+  .cellDayNum { font-size: 11px; }
+  /* On small phones, hide C and F to save space */
+  .mvC, .mvF  { display: none; }
+  .calGhost   { min-height: 72px; }
+  .monthTitle { font-size: 16px; }
+  .macroGrid  { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 400px) {
+  .dowCell { font-size: 9px; padding: 7px 2px; }
+}

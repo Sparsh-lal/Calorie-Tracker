@@ -1,0 +1,86 @@
+.card {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.18s;
+}
+
+.card:hover { box-shadow: var(--shadow-md); }
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.icon  { font-size: 18px; }
+
+.label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.value {
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s;
+}
+
+.unit {
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 4px;
+  opacity: 0.7;
+}
+
+.track {
+  height: 7px;
+  background: var(--border);
+  border-radius: var(--r-full);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--r-full);
+  transition: background 0.3s;
+}
+
+.ratio {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.sep { color: var(--text-muted); }
+
+.goalVal { color: var(--text-muted); }
+
+.overTag {
+  margin-left: 6px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--danger-bg);
+  color: var(--danger);
+  padding: 1px 6px;
+  border-radius: var(--r-full);
+}
