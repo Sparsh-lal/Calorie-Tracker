@@ -70,6 +70,21 @@ function App() {
     <div className="app-root">
       <Header />
 
+      {/* Guest mode banner */}
+      {user.isGuest && (
+        <div style={{
+          background: 'linear-gradient(90deg, rgba(99,102,241,0.12), rgba(249,115,22,0.10))',
+          borderBottom: '1px solid rgba(99,102,241,0.18)',
+          textAlign: 'center',
+          padding: '7px 16px',
+          fontSize: 12.5,
+          fontWeight: 600,
+          color: 'var(--text-secondary)',
+        }}>
+          👤 Guest mode — your data is not saved and will be lost on refresh
+        </div>
+      )}
+
       {/* Greeting */}
       <motion.div
         initial={{ opacity: 0, y: -6 }}

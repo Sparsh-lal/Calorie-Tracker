@@ -4,6 +4,11 @@ import { motion } from 'framer-motion'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { toggleTheme } from '../../store/slices/uiSlice'
+import { clearUser } from '../../store/slices/authSlice'
+import { clearEntries } from '../../store/slices/foodLogSlice'
+import { resetGoals } from '../../store/slices/goalsSlice'
+import { resetCustomFoods } from '../../store/slices/customFoodsSlice'
+import { resetPresets } from '../../store/slices/presetsSlice'
 import { exportAllData, saveToStorage } from '../../utils/storage'
 import { setEntries } from '../../store/slices/foodLogSlice'
 import { loadGoals } from '../../store/slices/goalsSlice'
@@ -17,11 +22,24 @@ export default function Header() {
   const theme      = useSelector(s => s.ui.theme)
   const state      = useSelector(s => s)
   const goals      = useSelector(s => s.goals)
+  const user       = useSelector(s => s.auth.user)
   const todayEntries = useSelector(s => s.foodLog.entries[todayKey()] || [])
   const importRef  = useRef()
 
   const todayTotals = sumEntries(todayEntries)
   const calorieGoal = goals.calories
+
+  function handleLogout() {
+    if (user?.isGuest) {
+      dispatch(clearUser())
+      dispatch(clearEntries())
+      dispatch(resetGoals())
+      dispatch(resetCustomFoods())
+      dispatch(resetPresets())
+    } else {
+      signOut(auth).then(() => toast.success('Signed out'))
+    }
+  }
 
   function handleExport() {
     exportAllData(state)
@@ -114,9 +132,9 @@ export default function Header() {
 
           <motion.button
             className={styles.iconBtn}
-            onClick={() => signOut(auth).then(() => toast.success('Signed out'))}
+            onClick={handleLogout}
             whileTap={{ scale: 0.9 }}
-            title="Sign out"
+            title={user?.isGuest ? 'Exit guest mode' : 'Sign out'}
           >
             🚪
           </motion.button>

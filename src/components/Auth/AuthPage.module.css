@@ -235,6 +235,54 @@
 }
 
 
+/* ── Guest button ─────────────────────────── */
+.guestDivider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 14px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.guestDivider::before,
+.guestDivider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.guestBtn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 11px 16px;
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: var(--r-lg);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.guestBtn:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.guestNote {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
 /* ── Dark mode card glow ──────────────────── */
 [data-theme="dark"] .card {
   border-color: rgba(99, 102, 241, 0.22);

@@ -9,6 +9,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { auth } from '../../firebase'
 import { saveUserProfile } from '../../utils/firestore'
 import { toggleTheme } from '../../store/slices/uiSlice'
+import { setUser } from '../../store/slices/authSlice'
+import { loadGuestState } from '../../store/slices/persistSlice'
 import toast from 'react-hot-toast'
 import styles from './AuthPage.module.css'
 
@@ -67,6 +69,18 @@ function Landing({ onSignIn, onRegister }) {
           Sign in
         </motion.button>
       </div>
+
+      <div className={styles.guestDivider}>
+        <span>or</span>
+      </div>
+      <motion.button
+        className={styles.guestBtn}
+        onClick={onGuest}
+        whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
+      >
+        👤 Continue as Guest
+        <span className={styles.guestNote}>No account needed · data not saved</span>
+      </motion.button>
     </motion.div>
   )
 }
@@ -206,6 +220,12 @@ export default function AuthPage() {
   const dispatch = useDispatch()
   const theme    = useSelector(s => s.ui.theme)
 
+  function handleGuest() {
+    dispatch(setUser({ uid: 'guest', name: 'Guest', username: 'guest', isGuest: true }))
+    dispatch(loadGuestState())
+    toast('Browsing as guest — data won’t be saved', { icon: '👤', duration: 3500 })
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.blob1} />
@@ -229,6 +249,7 @@ export default function AuthPage() {
               key="landing"
               onSignIn={() => setView('login')}
               onRegister={() => setView('register')}
+              onGuest={handleGuest}
             />
           )}
           {(view === 'login' || view === 'register') && (

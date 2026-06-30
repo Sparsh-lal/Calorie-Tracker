@@ -16,3 +16,9 @@ export const loadState = (uid) => async dispatch => {
   const theme = loadFromStorage('cal_theme', 'light')
   dispatch(setTheme(theme))
 }
+
+/** Thunk — guest mode: no Firestore, just restore theme */
+export const loadGuestState = () => dispatch => {
+  const theme = loadFromStorage('cal_theme', 'light')
+  dispatch(setTheme(theme))
+}
