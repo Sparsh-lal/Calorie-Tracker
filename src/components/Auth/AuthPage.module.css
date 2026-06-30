@@ -9,6 +9,181 @@
   background: var(--bg);
 }
 
+.blob1, .blob2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.blob1 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%);
+  top: -100px; right: -100px;
+}
+.blob2 {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 70%);
+  bottom: -80px; left: -60px;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  padding: 40px 36px 36px;
+  overflow: hidden;
+}
+
+/* ── Landing ──────────────────────────────── */
+.landing { text-align: center; }
+
+.heroLogo {
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 16px rgba(249,115,22,0.45));
+}
+
+.heroTitle {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.6px;
+  margin: 0 0 6px;
+}
+
+.heroSub {
+  font-size: 14.5px;
+  color: var(--text-muted);
+  margin: 0 0 28px;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.featureIcon {
+  font-size: 18px;
+  width: 28px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.landingBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.landingBtn {
+  width: 100%;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ── Auth form ────────────────────────────── */
+.backBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.backBtn:hover { color: var(--text); }
+
+.formHeader { text-align: center; margin-bottom: 24px; }
+
+.formLogo {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 2px 8px rgba(249,115,22,0.4));
+}
+
+.formTitle {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.4px;
+  margin: 0 0 4px;
+}
+
+.formSub {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.error {
+  font-size: 13px;
+  color: var(--danger);
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  margin: 0;
+  text-align: center;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .card { padding: 28px 18px 24px; }
+  .heroLogo { font-size: 44px; }
+  .heroTitle { font-size: 24px; }
+}
+
+
 /* Decorative background blobs */
 .blob1, .blob2 {
   position: absolute;
