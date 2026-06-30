@@ -1,10 +1,10 @@
 .header {
-  background: var(--brand-gradient);
+  background: var(--header-bg);
   color: #fff;
   position: sticky;
   top: 0;
   z-index: 300;
-  box-shadow: 0 2px 20px rgba(234, 88, 12, 0.35);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(99, 102, 241, 0.18);
 }
 
 .inner {
@@ -38,14 +38,15 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,255,255,0.14);
+  background: rgba(249, 115, 22, 0.18);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 6px 14px;
   border-radius: 100px;
   font-size: 12px;
   font-weight: 700;
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(249, 115, 22, 0.30);
+  color: #fed7aa;
 }
 
 .statIcon { font-size: 14px; }
@@ -63,22 +64,23 @@
 .iconBtn {
   width: 36px;
   height: 36px;
-  background: rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 15px;
   cursor: pointer;
-  color: white;
-  transition: background 0.18s;
+  color: rgba(255,255,255,0.85);
+  transition: background 0.18s, border-color 0.18s;
 }
 
 .iconBtn:hover {
-  background: rgba(255,255,255,0.26);
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.4);
 }
 
 @media (max-width: 560px) {

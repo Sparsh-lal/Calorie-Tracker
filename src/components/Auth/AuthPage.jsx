@@ -39,7 +39,7 @@ function Landing({ onSignIn, onRegister }) {
       className={styles.landing}
     >
       <div className={styles.heroLogo}>🔥</div>
-      <h1 className={styles.heroTitle}>Calorie Tracker</h1>
+      <h1 className={styles.heroTitle}>Calorie <span className={styles.heroAccent}>Tracker</span></h1>
       <p className={styles.heroSub}>Your personal nutrition companion</p>
 
       <ul className={styles.features}>
@@ -210,6 +210,7 @@ export default function AuthPage() {
     <div className={styles.page}>
       <div className={styles.blob1} />
       <div className={styles.blob2} />
+      <div className={styles.blob3} />
 
       {/* Theme toggle */}
       <motion.button

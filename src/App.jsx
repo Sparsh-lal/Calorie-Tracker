@@ -70,20 +70,30 @@ function App() {
     <div className="app-root">
       <Header />
 
-      {/* Greeting — compact, inline with nav */}
+      {/* Greeting */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.3 }}
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.35 }}
         style={{
           textAlign: 'center',
-          padding: '6px 16px 0',
-          fontSize: 13,
-          fontWeight: 600,
-          color: 'var(--text-muted)',
+          padding: '14px 16px 2px',
+          fontSize: 19,
+          fontWeight: 800,
+          color: 'var(--text)',
+          letterSpacing: '-0.3px',
         }}
       >
-        {getGreeting()}, <span style={{ color: 'var(--brand)', fontWeight: 800 }}>{user.name}</span> 👋
+        {getGreeting()},{' '}
+        <span style={{
+          background: 'var(--brand-gradient)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}>
+          {user.name}
+        </span>{' '}
+        <span style={{ WebkitTextFillColor: 'initial' }}>👋</span>
       </motion.div>
 
       <NavTabs />
